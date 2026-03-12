@@ -151,7 +151,9 @@ async function pollForEvents() {
               blockTimestamps[log.blockNumber] = block.timestamp;
             } catch (e) {}
             
-            const newEvent = formatEvent(log, blockTimestamps);
+            // Attach eventName to log for formatEvent
+            const logWithEvent = { ...log, event: eventName };
+            const newEvent = formatEvent(logWithEvent, blockTimestamps);
             events.unshift(newEvent);
             console.log(`📥 ${eventName}: Task #${newEvent.data.taskId || 'N/A'}`);
           }
